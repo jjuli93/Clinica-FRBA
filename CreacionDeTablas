@@ -1,0 +1,103 @@
+CREATE TABLE EstadoCivil
+(
+estC_idEstadoCivil tinyint NOT NULL PRIMARY KEY,
+estC_descripcion varchar(255)
+);
+
+CREATE TABLE TipoDocumento
+(
+tipoD_idTipoDocumento tinyint NOT NULL PRIMARY KEY,
+tipoD_descripcion varchar(255)
+);
+
+CREATE TABLE Rol
+(
+rol_idRol int NOT NULL PRIMARY KEY,
+rol_nombre varchar(255),
+rol_habilitado bit
+);
+
+CREATE TABLE Funcionalidad
+(
+func_idFuncionalidad int NOT NULL PRIMARY KEY,
+);
+
+CREATE TABLE Rol_Funcionalidad
+(
+rolFunc_idRolFuncionalidad int NOT NULL PRIMARY KEY,
+rolFunc_idRol int NOT NULL FOREIGN KEY REFERENCES Rol(rol_idRol),
+rolFunc_idFuncinalidad int NOT NULL FOREIGN KEY REFERENCES Funcionalidad(func_idFuncionalidad)
+);
+
+CREATE TABLE UsuarioDatos
+(
+usu_idUser int NOT NULL PRIMARY KEY,
+usu_idEstadoCivil tinyint NOT NULL FOREIGN KEY REFERENCES EstadoCivil(estC_idEstadoCivil),
+usu_idTipoDocumento tinyint NOT NULL FOREIGN KEY REFERENCES TipoDocumento(tipoD_idTipoDocumento),
+usu_username varchar(255),
+usu_password varchar(255),
+usu_loginFallidos tinyint,
+usu_habilitado bit,
+usu_nombre varchar(255),
+usu_apellido varchar(255),
+usu_nroDocumento numeric(18,0),
+usu_sexo bit,
+usu_direccionCompleta varchar(255),
+usu_telefono numeric(18,0),
+usu_mail varchar(255),
+usu_fechaNacimiento datetime,
+);
+
+CREATE TABLE Usuario_Rol
+(
+usuRol_idUsuarioRol int NOT NULL PRIMARY KEY,
+usuRol_idUsuario int NOT NULL FOREIGN KEY REFERENCES UsuarioDatos(usu_idUser),
+usuRol_idRol int NOT NULL FOREIGN KEY REFERENCES Rol(rol_idRol)
+);
+
+
+
+CREATE TABLE Afiliado
+(
+afi_idAfiliado int NOT NULL PRIMARY KEY,
+afi_idUsuario int NOT NULL FOREIGN KEY REFERENCES UsuarioDatos(usu_idUser),
+afi_nroAfiliado int NOT NULL,
+afi_idPlan numeric(18,0)
+);
+
+CREATE TABLE Profesional
+(
+prof_idProfesional int NOT NULL PRIMARY KEY,
+prof_idUsuario int NOT NULL FOREIGN KEY REFERENCES UsuarioDatos(usu_idUser),
+prof_matricula int
+);
+
+CREATE TABLE Cancelacion
+(
+canc_idCancelacion int PRIMARY KEY,
+canc_idAfiliado int NOT NULL FOREIGN KEY REFERENCES Afiliado(afi_idAfiliado),
+canc_idProfesional int NOT NULL FOREIGN KEY REFERENCES Profesional(prof_idProfesional),
+canc_tipo tinyint,
+canc_motivo varchar(255),
+canc_fechaDesde datetime,
+canc_fechaHasta datetime
+);
+
+CREATE TABLE PlanMedico
+(
+plan_idPlan tinyint NOT NULL PRIMARY KEY,
+plan_codigo tinyint,
+plan_descripcion varchar(255),
+plan_PrecioBonoConsulta decimal(12,2)
+);
+
+CREATE TABLE CambiosPlan
+(
+cmbpln_idCambiosPlan int PRIMARY KEY,
+cmbpln_idPlanAnterior tinyint FOREIGN KEY REFERENCES PlanMedico(plan_idPlan),
+cmbpln_idPlanActual tinyint FOREIGN KEY REFERENCES PlanMedico(plan_idPlan),
+cmbpln_idAfiliado int FOREIGN KEY REFERENCES Afiliado(afi_idAfiliado),
+cmbpln_motivo varchar(255),
+cmbpln_fecha datetime
+);
+
