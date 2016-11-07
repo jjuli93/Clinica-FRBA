@@ -103,7 +103,7 @@ create table INDEXADOS.Turno(
 turno_id int identity(1,1) not null,
 profesionalXEspecialidad_id int not null,
 afiliado_id int not null,
-cancelacion_id int not null,
+cancelacion_id int,
 turno_numero int,							-- ¿para que sirve?
 turno_fecha datetime
 );
@@ -357,4 +357,16 @@ where m.Paciente_Dni = u.usuario_nroDocumento
 and m.Plan_Med_Codigo = p.planMedico_codigo
 group by u.usuario_id, p.planMedico_id
 
-select * from INDEXADOS.Afiliado
+
+--------------------------------------------------------
+--------------------Turno-------------------------------
+--------------------------------------------------------
+insert into INDEXADOS.Turno(profesionalXEspecialidad_id, afiliado_id,turno_numero, turno_fecha)
+select pe.profesionalXEspecialidad_id, a.afiliado_id, m.Turno_Numero, m.Turno_Fecha
+from  INDEXADOS.ProfesionalXEspecialidad pe, INDEXADOS.Afiliado a, gd_esquema.Maestra m, INDEXADOS.Usuario u, INDEXADOS.Usuario u2, INDEXADOS.Profesional p
+where m.Paciente_Dni = u.usuario_nroDocumento
+and u.usuario_id = a.usuario_id
+and m.Medico_Dni = u2.usuario_nroDocumento
+and u2.usuario_id = p.usuario_id
+and p.profesional_id = pe.profesional_id
+group by pe.profesionalXEspecialidad_id, a.afiliado_id, m.Turno_Numero, m.Turno_Fecha
