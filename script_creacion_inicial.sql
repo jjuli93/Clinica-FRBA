@@ -30,7 +30,7 @@ rol_id int not null,
 
 create table INDEXADOS.Usuario(
 usuario_id int identity(1,1) not null,
-estadoCivil_id int not null,
+estadoCivil_id int,
 tipoDocumento_id int not null,
 usuario_username varchar(200),
 usuario_password varchar(200),
@@ -49,7 +49,7 @@ usuario_fechaNacimiento [date]
 create table INDEXADOS.Profesional(
 profesional_id int identity(1,1) not null,
 usuario_id int not null,
-matricula int
+profesional_matricula int
 );
 
 create table INDEXADOS.Afiliado(
@@ -74,7 +74,7 @@ create table INDEXADOS.ProfesionalXEspecialidad(
 profesionalXEspecialidad_id int identity(1,1) not null,
 profesional_id int not null,
 especialidad_id int not null,
-agenda_id int not null
+agenda_id int
 );
 
 create table INDEXADOS.Especialidad(
@@ -226,6 +226,31 @@ ALTER TABLE Indexados.ProfesionalXEspecialidad ADD CONSTRAINT fk_ProfesionalXEsp
 ALTER TABLE Indexados.ProfesionalXEspecialidad ADD CONSTRAINT fk_ProfesionalXEspecialidad_to_Especialidad FOREIGN KEY (especialidad_id) REFERENCES Indexados.Especialidad (especialidad_id);
 ALTER TABLE Indexados.ProfesionalXEspecialidad ADD CONSTRAINT fk_ProfesionalXEspecialidad_to_Agenda FOREIGN KEY (agenda_id) REFERENCES Indexados.Agenda (agenda_id);
 ALTER TABLE Indexados.Especialidad ADD CONSTRAINT fk_Especialidad_to_TipoEspecialidad FOREIGN KEY (tipoEspecialidad_id) REFERENCES Indexados.TipoEspecialidad (tipoEspecialidad_id);
+GO
+
+--------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------Triggers-----------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+
+create trigger INDEXADOS.insertar_profesional on INDEXADOS.Profesional for insert
+as
+begin
+	insert into INDEXADOS.UsuarioXRol(usuario_id, rol_id)
+	select  i.usuario_id,  R.rol_id
+	from inserted i, INDEXADOS.Rol R
+	where R.rol_descripcion = 'Profesional'
+end
+go
+	
+create trigger INDEXADOS.insertar_afiliado on INDEXADOS.Afiliado for insert
+as
+begin
+	insert into INDEXADOS.UsuarioXRol(usuario_id, rol_id)
+	select i.usuario_id, r.rol_id
+	from inserted i, INDEXADOS.Rol r
+	where R.rol_descripcion = 'Afiliado'
+end
+go
 
 
 
@@ -246,3 +271,90 @@ INSERT INTO INDEXADOS.TipoDocumento(tipoDocumento_descripcion)
 VALUES ('DNI'),('LE'),('LC')
 
 
+--------------------------------------------------------
+--------------------Rol---------------------------------
+--------------------------------------------------------
+Insert INTO INDEXADOS.Rol(rol_descripcion)
+  VALUES ('Administrador'), ('Afiliado'), ('Profesional')
+
+--------------------------------------------------------
+--------------------TipoEspecialidad--------------------
+--------------------------------------------------------
+Insert INTO INDEXADOS.TipoEspecialidad(tipoEspecialidad_codigo, tipoEspecialidad_descripcion)
+select Tipo_Especialidad_Codigo, Tipo_Especialidad_Descripcion
+from gd_esquema.Maestra
+where Tipo_Especialidad_Codigo is not null
+group by Tipo_Especialidad_Codigo, Tipo_Especialidad_Descripcion
+
+--------------------------------------------------------
+--------------------Especialidad------------------------
+--------------------------------------------------------
+insert into INDEXADOS.Especialidad(especialidad_codigo, especialidad_descripcion, tipoEspecialidad_id)
+select M.Especialidad_Codigo, M.Especialidad_Descripcion, I.tipoEspecialidad_id
+from gd_esquema.Maestra M, INDEXADOS.TipoEspecialidad I
+where M.Especialidad_Codigo is not null
+and M.Tipo_Especialidad_Codigo = I.tipoEspecialidad_codigo
+group by M.Especialidad_Codigo, M.Especialidad_Descripcion, I.tipoEspecialidad_id
+
+--------------------------------------------------------
+--------------------Usuario-----------------------------
+--------------------------------------------------------
+insert into INDEXADOS.Usuario(usuario_nombre, usuario_apellido, usuario_nroDocumento, usuario_direccion, usuario_telefono, usuario_mail, usuario_fechaNacimiento, usuario_loginFallidos, tipoDocumento_id, usuario_username, usuario_password)
+select M.Medico_Nombre, M.Medico_Apellido, M.Medico_Dni, M.Medico_Direccion, M.Medico_Telefono, M.Medico_Mail, M.Medico_Fecha_Nac,0,I.tipoDocumento_id, M.Medico_Apellido, HASHBYTES('SHA2_256', 'profesional')
+from gd_esquema.Maestra M, INDEXADOS.TipoDocumento I
+where M.Medico_Nombre is not null
+and M.Medico_Apellido is not null
+and M.Medico_Dni is not null
+and I.tipoDocumento_descripcion = 'DNI'
+group by M.Medico_Nombre, M.Medico_Apellido, M.Medico_Dni, M.Medico_Direccion, M.Medico_Telefono, M.Medico_Mail, M.Medico_Fecha_Nac, I.tipoDocumento_id
+union
+select Paciente_Nombre, Paciente_Apellido, Paciente_Dni, Paciente_Direccion, Paciente_Telefono, Paciente_Mail, Paciente_Fecha_Nac,0, i.tipoDocumento_id, Paciente_Apellido, HASHBYTES('SHA2_256', 'afiliado')
+from gd_esquema.Maestra M, INDEXADOS.TipoDocumento i
+where Paciente_Nombre is not null
+and Paciente_Apellido is not null
+and Paciente_Dni is not null
+and I.tipoDocumento_descripcion = 'DNI'
+group by Paciente_Nombre, Paciente_Apellido, Paciente_Dni, Paciente_Direccion, Paciente_Telefono, Paciente_Mail, Paciente_Fecha_Nac, i.tipoDocumento_id
+
+
+--------------------------------------------------------
+--------------------Profesional-------------------------
+--------------------------------------------------------
+insert into INDEXADOS.Profesional(usuario_id)
+select u.usuario_id
+from gd_esquema.Maestra m, INDEXADOS.Usuario u
+where m.Medico_Nombre = u.usuario_nombre
+and m.Medico_Apellido = u.usuario_apellido
+and m.Medico_Dni = u.usuario_nroDocumento
+group by m.Medico_Nombre, m.Medico_Apellido, m.Medico_Dni, u.usuario_id
+
+--------------------------------------------------------
+---------------ProfesionalXEspecialidad-----------------
+--------------------------------------------------------
+insert into INDEXADOS.ProfesionalXEspecialidad(profesional_id, especialidad_id)
+select p.profesional_id, e.especialidad_id
+from gd_esquema.Maestra m, INDEXADOS.Usuario u, INDEXADOS.Profesional p, INDEXADOS.Especialidad e
+where m.Medico_Dni = u.usuario_nroDocumento
+and p.usuario_id = u.usuario_id
+and m.Especialidad_Codigo = e.especialidad_codigo
+group by p.profesional_id, e.especialidad_id
+
+--------------------------------------------------------
+----------------------PlanMedico------------------------
+--------------------------------------------------------
+insert into INDEXADOS.PlanMedico(planMedico_codigo, planMedico_descripcion, planMedico_precioBono)
+select m.Plan_Med_Codigo, m.Plan_Med_Descripcion, m.Plan_Med_Precio_Bono_Consulta
+from gd_esquema.Maestra m
+group by m.Plan_Med_Codigo, m.Plan_Med_Descripcion, m.Plan_Med_Precio_Bono_Consulta
+
+--------------------------------------------------------
+--------------------Afiliado----------------------------
+--------------------------------------------------------
+insert into INDEXADOS.Afiliado(usuario_id, planMedico_id)
+select u.usuario_id, p.planMedico_id
+from gd_esquema.Maestra m, INDEXADOS.Usuario u, INDEXADOS.PlanMedico p
+where m.Paciente_Dni = u.usuario_nroDocumento
+and m.Plan_Med_Codigo = p.planMedico_codigo
+group by u.usuario_id, p.planMedico_id
+
+select * from INDEXADOS.Afiliado
