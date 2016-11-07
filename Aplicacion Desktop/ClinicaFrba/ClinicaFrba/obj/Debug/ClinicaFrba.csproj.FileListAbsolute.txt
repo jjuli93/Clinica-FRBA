@@ -1,0 +1,29 @@
+C:\Users\Matias\Documents\Visual Studio 2012\Projects\ClinicaFrba\ClinicaFrba\ClinicaFrba\bin\Debug\ClinicaFrba.exe.config
+C:\Users\Matias\Documents\Visual Studio 2012\Projects\ClinicaFrba\ClinicaFrba\ClinicaFrba\bin\Debug\ClinicaFrba.exe
+C:\Users\Matias\Documents\Visual Studio 2012\Projects\ClinicaFrba\ClinicaFrba\ClinicaFrba\bin\Debug\ClinicaFrba.pdb
+C:\Users\Matias\Documents\Visual Studio 2012\Projects\ClinicaFrba\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.csprojResolveAssemblyReference.cache
+C:\Users\Matias\Documents\Visual Studio 2012\Projects\ClinicaFrba\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Properties.Resources.resources
+C:\Users\Matias\Documents\Visual Studio 2012\Projects\ClinicaFrba\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.csproj.GenerateResource.Cache
+C:\Users\Matias\Documents\Visual Studio 2012\Projects\ClinicaFrba\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.exe
+C:\Users\Matias\Documents\Visual Studio 2012\Projects\ClinicaFrba\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.pdb
+C:\Users\Samo\Desktop\GDD2C\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\bin\Debug\ClinicaFrba.exe.config
+C:\Users\Samo\Desktop\GDD2C\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.exe
+C:\Users\Samo\Desktop\GDD2C\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.pdb
+C:\Users\Samo\Desktop\GDD2C\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\bin\Debug\ClinicaFrba.exe
+C:\Users\Samo\Desktop\GDD2C\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\bin\Debug\ClinicaFrba.pdb
+C:\Users\Samo\Desktop\GDD2C\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.csprojResolveAssemblyReference.cache
+C:\Users\Samo\Desktop\GDD2C\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Properties.Resources.resources
+C:\Users\Samo\Desktop\GDD2C\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.csproj.GenerateResource.Cache
+C:\Users\Samo\Desktop\GDD2C\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Abm_Afiliado.Form1.resources
+C:\Users\Samo\Desktop\GDD2C\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Abm_Especialidades_Medicas.Form1.resources
+C:\Users\Samo\Desktop\GDD2C\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Abm_Planes.Form1.resources
+C:\Users\Samo\Desktop\GDD2C\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Abm_Profesional.Form1.resources
+C:\Users\Samo\Desktop\GDD2C\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Cancelar_Atencion.Form1.resources
+C:\Users\Samo\Desktop\GDD2C\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Compra_Bono.Form1.resources
+C:\Users\Samo\Desktop\GDD2C\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Registro_Llegada.Form1.resources
+C:\Users\Samo\Desktop\GDD2C\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Registro_Resultado.Form1.resources
+C:\Users\Samo\Desktop\GDD2C\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.AbmRol.formRoles.resources
+C:\Users\Samo\Desktop\GDD2C\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.formLogin.resources
+C:\Users\Samo\Desktop\GDD2C\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Listados.formListados.resources
+C:\Users\Samo\Desktop\GDD2C\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Pedir_Turno.formPedidoDeTurno.resources
+C:\Users\Samo\Desktop\GDD2C\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Registrar_Agenta_Medico.RegistroAtencionMedica.resources
